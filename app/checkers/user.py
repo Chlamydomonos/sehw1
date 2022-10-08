@@ -14,6 +14,9 @@ def register_params_check(content: Dict):
     """
     TODO: 进行参数检查
     """
+    if not isinstance(content, Dict):
+        return 'error: content', False
+
     if 'username' in content:
         username = content['username']
         if not isinstance(username, str) or not _USERNAME.match(username):
