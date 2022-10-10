@@ -8,7 +8,7 @@ _USERNAME = re.compile(r'^(?=.{5,12}$)[A-Za-z]+\d+$')
 _PASSWORD = re.compile(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-_*^])(?=.{8,15}$)[A-Za-z0-9-_*^]*$')
 _URL = re.compile(r'^(?=https?://.{0,48}$)https?://(([A-Za-z0-9]|(?<![\./])-(?!\.))+\.)+([0-9](?![0-9]*$)|[A-Za-z])([A-Za-z0-9]|-(?!$))*$')
 _MOBILE = re.compile(r'^\+\d{2}\.\d{12}$')
-_MAGIC_NUMBER = re.compile(r'^0|([1-9][0-9*])$')
+_MAGIC_NUMBER = re.compile(r'^0|([1-9][0-9]*)$')
 
 def register_params_check(content: Dict):
     """
