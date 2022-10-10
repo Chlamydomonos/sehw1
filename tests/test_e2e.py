@@ -25,14 +25,14 @@ class SeleniumTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # start Chrome
-        options = webdriver.ChromeOptions()
+        options = webdriver.FirefoxOptions()
         # options.add_argument('headless')
-        options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        # options.add_experimental_option("excludeSwitches", ["enable-logging"])
         # You need to change this to your actual binary path.
-        # options.binary_location = "C:\Program Files\Google\Chrome Dev\Application\chrome.exe"
+        options.binary_location = "/bin/firefox"
         # You need to change this to your actual web driver path.
-        cls.client = webdriver.Chrome(
-            'drivers/chromedriver.exe', chrome_options=options)
+        cls.client = webdriver.Firefox(
+            './drivers', options=options)
 
         # create the application
         cls.app = create_app('test')
@@ -84,22 +84,46 @@ class SeleniumTestCase(unittest.TestCase):
         self.client.find_element_by_id('password').send_keys('test')
         self.client.find_element_by_xpath(
             '//*[@id="root"]/div/div[3]/div/button').click()
+        time.sleep(0.2)
 
         """
         TODO: 登录后发帖，发帖标题为：Hello World，发帖内容为：你好！
         """
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div[1]/div/a').click()
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[1]/div/input').send_keys('Hello World')
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[2]/div[2]/section[1]/textarea').send_keys('你好！')
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[3]/button').click()
+        time.sleep(0.2)
 
         """
         TODO: 更新帖子标题为：Hello World！，帖子内容为：你好。
         """
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div[2]/div[2]/span[2]/span/a[1]').click()
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[1]/div/input').clear()
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[1]/div/input').send_keys('Hello World！')
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[2]/div[2]/section[1]/textarea').clear()
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[2]/div[2]/section[1]/textarea').send_keys('你好。')
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[3]/button').click()
 
         """
         TODO: 回复刚才的帖子，回复内容为：你好！
         """
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div[2]/div[2]/span[2]/span/a[2]').click()
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[2]/div[2]/section[1]/textarea').send_keys('你好！')
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div/div[3]/button').click()
 
         """
         TODO: 退出登录
         """
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/header/div/span/a').click()
+        time.sleep(0.2)
+        self.client.find_element_by_xpath('/html/body/div/div/div[3]/div/div[6]/button').click()
+        time.sleep(0.2)
 
 
 if __name__ == '__main__':
