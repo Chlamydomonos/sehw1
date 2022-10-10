@@ -1,1 +1,53 @@
 # TODO: 补充docker compose配置文件
+version: '3'
+services:
+  app:
+    restart: always
+    container_name: app
+    command: >
+      bash -c
+      "python3 manage.py init_db &&
+      gunicorn -w4 -b 0.0.0.0:5000 --log-level=debug manage:app"
+    expose:
+      - 5000
+    build: .
+    networks:
+      - app_net
+      - db_net
+    depends_on:
+      - mysql
+    
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 8000:8000
+    volumes:
+      - ./nginx/app.conf:/etc/nginx/conf.d/nginx.conf
+      - ./app/static:/etc/nginx/html/static
+      - ./app/templates/index.html:/etc/nginx/html/index.html
+    networks:
+      - app_net
+    depends_on:
+      - app
+
+  mysql:
+    container_name: mysql
+    restart: always
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=2020010950
+      - MYSQL_DATABASE=thss
+      - TZ=Asia/Shanghai
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    expose:
+      - 3306
+    networks:
+      - db_net
+
+networks:
+  app_net:
+    driver: bridge
+  db_net:
+    driver: bridge
