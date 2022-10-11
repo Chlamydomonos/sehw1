@@ -13,7 +13,7 @@ if len(repo.untracked_files)!=0:
 
 changed = [ item.a_path for item in repo.index.diff(None) ]
 
-ALLOW_CHANGED = ['lint.sh', 'app/checkers/user.py', 'tests/test_basic.py', 'tests/test_api.py', 'test/test_selenium.py', '.flake8', 'Dockerfile', 'nginx/app.conf', 'docker-compose.yml'] # noqa: E501
+ALLOW_CHANGED = ['lint.sh', 'app/checkers/user.py', 'tests/test_basic.py', 'tests/test_api.py', 'test/test_e2e.py', '.flake8', 'Dockerfile', 'nginx/app.conf', 'docker-compose.yml', 'zip.py'] # noqa: E501
 
 extras = []
 for file in changed:

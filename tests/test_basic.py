@@ -16,11 +16,25 @@ class BasicTestCase(unittest.TestCase):
         self.assertEqual(register_params_check(content), ('error: username', False))
         content['username'] = 'asd'
         self.assertEqual(register_params_check(content), ('error: username', False))
+        content['username'] = 'asd123412341234'
+        self.assertEqual(register_params_check(content), ('error: username', False))
+        content['username'] = '123asd'
+        self.assertEqual(register_params_check(content), ('error: username', False))
+        content['username'] = 'asd123asd'
+        self.assertEqual(register_params_check(content), ('error: username', False))
+        content['username'] = 'asd123!'
+        self.assertEqual(register_params_check(content), ('error: username', False))
         content['username'] = 'asd123'
         self.assertEqual(register_params_check(content), ('lost: password', False))
         content['password'] = 0
         self.assertEqual(register_params_check(content), ('error: password', False))
         content['password'] = 'Asd123'
+        self.assertEqual(register_params_check(content), ('error: password', False))
+        content['password'] = 'Asd123-'
+        self.assertEqual(register_params_check(content), ('error: password', False))
+        content['password'] = 'Asd123-123123123123123'
+        self.assertEqual(register_params_check(content), ('error: password', False))
+        content['password'] = 'Asd123.'
         self.assertEqual(register_params_check(content), ('error: password', False))
         content['password'] = 'Asd123-^'
         self.assertEqual(register_params_check(content), ('lost: nickname', False))
@@ -32,11 +46,21 @@ class BasicTestCase(unittest.TestCase):
         self.assertEqual(register_params_check(content), ('error: url', False))
         content['url'] = 'http://'
         self.assertEqual(register_params_check(content), ('error: url', False))
+        content['url'] = 'http://a.123'
+        self.assertEqual(register_params_check(content), ('error: url', False))
+        content['url'] = 'http://asdasdasdasdasd.gwgewgewgewg.scbssbsfsfb.qwrwqeqwewqew.adafasf'
+        self.assertEqual(register_params_check(content), ('error: url', False))
+        content['url'] = 'http://-a.b'
+        self.assertEqual(register_params_check(content), ('error: url', False))
         content['url'] = 'http://a.b'
         self.assertEqual(register_params_check(content), ('lost: mobile', False))
         content['mobile'] = 0
         self.assertEqual(register_params_check(content), ('error: mobile', False))
         content['mobile'] = '+11.1'
+        self.assertEqual(register_params_check(content), ('error: mobile', False))
+        content['mobile'] = '+11.11111111111111'
+        self.assertEqual(register_params_check(content), ('error: mobile', False))
+        content['mobile'] = '+111.111111111111'
         self.assertEqual(register_params_check(content), ('error: mobile', False))
         content['mobile'] = '+11.111111111111'
         self.assertEqual(register_params_check(content), ('ok', True))
